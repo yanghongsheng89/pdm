@@ -25,7 +25,7 @@
     // Insert code here to initialize your application
     array = [NSMutableArray new];
 //    [tableView reloadData];
-    [self parsePDM:@"/Users/jack/doc/a.pdm"];
+    [self parsePDM:@"/Users/jack/doc/User.pdm"];
 }
 -(void) parseXML:(NSString *) path{
     [array removeAllObjects];
@@ -125,6 +125,9 @@
             column.modifyUser = [[[colum elementsForName:@"a:Modifier"] objectAtIndex:0]stringValue];
             column.type = [[[colum elementsForName:@"a:DataType"] objectAtIndex:0]stringValue];
             column.length = [[[colum elementsForName:@"a:Length"] objectAtIndex:0]stringValue];
+            column.comment = [[[colum elementsForName:@"a:Comment"] objectAtIndex:0]stringValue];
+            NSString *key = [[[colum elementsForName:@"a:Identity"] objectAtIndex:0]stringValue];
+            column.isId = [@"1" isEqualToString:key];
             [pdmColumns addObject:column];
         }
         table.pdmColumn = pdmColumns;
@@ -139,5 +142,6 @@
     model.modifyUser = [[[modelNode elementsForName:@"a:Modifier"] objectAtIndex:0]stringValue];
     model.pdmTable =pdmTables;
     [systemNameLabel setStringValue:model.name];
+    
 }
 @end
